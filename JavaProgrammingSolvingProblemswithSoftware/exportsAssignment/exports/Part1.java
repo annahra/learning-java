@@ -16,20 +16,28 @@ public class Part1 {
         CSVParser parser = fr.getCSVParser();
         
         //test countryInfo
-        //System.out.println(countryInfo(parser, "Germany"));
+        System.out.println(countryInfo(parser, "Nauru"));
+        //System.out.print("");
+        
         //test listExportersTwoProducts
         //listExportersTwoProducts(parser, "gold", "diamonds");
+        //System.out.print("");
+        
         //test numberOfExporters
         //System.out.println(numberOfExporters(parser, "gold"));
+        //System.out.print("");
+        
         //test bigExporters
-        bigExporters(parser, "$999,999,999");
+        //bigExporters(parser, "$999,999,999,999");
+        //System.out.print("");
     }
     
     String countryInfo(CSVParser parser, String country){
-        String info = country;
+        String info = "";
         //parse through parser
         for(CSVRecord record: parser){
             /* Why this doesn't work? theory: looks like records.get returns a list, but its a string?? iuno man
+             * okay, i think it doesn't work because "==" operator is for numbers, not strings
             if (record.get("Country") == country){
                 System.out.println("I'm in the if statement");
                 String export = record.get("Export");
@@ -41,14 +49,14 @@ public class Part1 {
                 
             }
             else{System.out.println(record.get("Country") + " is not " + country);}*/
-            String currCountry = record.get("Country");
-            if(currCountry.contains(country)){
+            
+            if(record.get("Country").equals(country)){
                 String export = record.get("Exports");
                 String amount = record.get("Value (dollars)");
-                if (export == ""){export = "EXPORT NOT FOUND";}
-                if (amount == ""){amount = "AMOUNT NOT FOUND";}
                 
-                info = info + ": " + export + ": " + amount;
+                
+                info = country + ": " + export + ": " + amount;
+                break;
             }
             else{info = "NO DATA";}
         }
