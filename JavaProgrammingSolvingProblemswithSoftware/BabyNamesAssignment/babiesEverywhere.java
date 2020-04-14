@@ -23,8 +23,9 @@ public class babiesEverywhere {
     }
     
     
-    public void totalBirths(FileResource fr){
+    public void totalBirths(){
         //FileResource fr = new FileResource();
+        FileResource fr = new FileResource();
         CSVParser parser = fr.getCSVParser(false);
         int totalBirths = 0;
         int totalGirls = 0;
@@ -50,9 +51,9 @@ public class babiesEverywhere {
     
     void testGetRank(){
         
-        String name = "Mason";
-        String gender = "F";
-        int year = 2012;
+        String name = "Frank";
+        String gender = "M";
+        int year = 1971;
         FileResource fr = new FileResource();
         System.out.println(name+"("+gender+") of year " + year+" Rank: " +
                             getRank(year,name,gender, fr));
@@ -81,9 +82,9 @@ public class babiesEverywhere {
     }
     
     void testGetName(){
-        int rank = 10;
+        int rank = 450;
         String gender = "M";
-        int year = 2012;
+        int year = 1982;
         System.out.println("The person with rank " + rank +
                             " and gender " + gender + 
                             " in the year " + year + 
@@ -120,7 +121,7 @@ public class babiesEverywhere {
     }
     
     void testYearOfHighestRank(){
-        String name = "Mason";
+        String name = "Mich";
         String gender = "M";
         System.out.println("The name " + name +
                             " (" + gender + ") " + 
@@ -149,8 +150,8 @@ public class babiesEverywhere {
             else if(currRank == -1){rank = rank;}
             //for every other case
             else{
-
-                if(currRank<rank){
+                if(currRank==rank){rank=rank;}
+                else if(currRank<rank){
                     rank = currRank;
                     yearHigh = currYear;
                 }
@@ -160,14 +161,77 @@ public class babiesEverywhere {
         return yearHigh;
     }
     
+    void testGetAverageRank(){
+        String name = "Robert";
+        String gender = "M";
+        double avgRank = getAverageRank(name,gender);
+        System.out.println("The average rank of " + name +
+                            " (" + gender + ") " + "is: " + avgRank);
+    
+    }
+    
     double getAverageRank(String name, String gender){
         //initialize rank with 
-        double rank = 0;
+        double rank = -1;
         //initialize count
+        double count = 0;
+        //initialize sum
+        double sum = 0;
+        //initialize directory resource
+        DirectoryResource dr = new DirectoryResource();
+        //parse through directory resource
+        for(File f : dr.selectedFiles()){
+            FileResource fr = new FileResource(f);
+            //iterate through file
+            for(CSVRecord rec : fr.getCSVParser()){
+                String currName = rec.get(0);
+                String currGen = rec.get(1);
+                if(currName.equals(name) && currGen.equals(gender)){
+                    int currRank = getRank(1,name,gender,fr);
+                    //check if this name and gender is in the file
+                    if(currRank == -1){rank=rank;}
+                    //if so, get the rank number and add it to the sum and increment count
+                    else{sum+=currRank; count+=1;}
+                }
+            }
+        }
+        
+        if(sum == 0){return -1;}
+        else{
+            rank = sum/count;
+            return rank;
+        }
+    }
+    
+    void testGetTotalBirthsRankedHigher(){
+        String name = "Drew";
+        String gender = "M";
+        int year = 1990; 
+        FileResource fr = new FileResource();
+        
+        System.out.println("Total births ranked higher than " +
+                            name + " (" + gender + ") on year " + year +
+                            ": " + getTotalBirthsRankedHigher(year,name, gender, fr));
+    }
+    
+    int getTotalBirthsRankedHigher(int year, String name, String gender, FileResource fr){
+        //intialize count of num of births
         int count = 0;
+        //FileResource fr = new FileResource(f);
+        CSVParser parser = fr.getCSVParser(false);
+        for(CSVRecord rec : parser){
+            String currName = rec.get(0);
+            String currGend = rec.get(1);
+            int currCount = Integer.parseInt(rec.get(2));
+            //if we found the name, set our count is our rank
+            if(currName.equals(name) && currGend.equals(gender)){
+                break;  
+            }
+            //incremement count
+            if(currGend.equals(gender)){count+= currCount;}
+        }
         
-        
-        return 0;
+        return count;
     }
     
 }
