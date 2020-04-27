@@ -60,4 +60,39 @@ public class WordPlay {
         out.println(replaceVowels("Hello World!", '*'));
     
     }
+    
+    
+    public String emphasize(String phrase, char ch){
+        //return a string replaced by '*' if vowel is at an odd number location in the string
+        //and '+' if it is at an even location in the string, count starting from 1
+        //initialize string builder
+        StringBuilder thePhrase = new StringBuilder(phrase);
+        //loop through phrase
+        for(int i=0; i < phrase.length(); i++){
+            //check to see if index character is same as ch 
+            //if it is, do these things
+            if((thePhrase.charAt(i) == Character.toLowerCase(ch)) ||
+                thePhrase.charAt(i) == Character.toUpperCase(ch)){
+                //if i is even
+                if((i+1)%2 == 0){
+                    thePhrase.setCharAt(i,'+');
+                }
+                //else, if odd
+                else{
+                    thePhrase.setCharAt(i,'*');
+                }
+            
+            }
+        }
+        
+        
+        return thePhrase.toString();
+    }
+    
+    
+    public void testEmphasize(){
+        out.println(emphasize("dna ctgaaactga", 'a'));
+        out.println(emphasize("Mary Bella Abracadabra", 'a'));
+        
+    }
 }
