@@ -37,5 +37,27 @@ public class WordPlay {
     }
     
     
+    public String replaceVowels(String phrase, char ch){
+        //returns a string that is phrase but with all the vowels replaced by ch
+        //intialize string builder so we can change it
+        StringBuilder thePhrase = new StringBuilder(phrase);
+        //loop through string
+        for(int i=0; i < phrase.length(); i++){
+            //is the current character a vowel?
+            boolean wellIsIt = isVowel(thePhrase.charAt(i));
+            //if it is, change that vowel to ch
+            if (wellIsIt == true){
+                //set it
+                thePhrase.setCharAt(i,ch);
+            }
+            //if not, do nothing, continue the loop
+        }
+        
+        return thePhrase.toString();
+    }
     
+    public void testReplaceVowels(){
+        out.println(replaceVowels("Hello World!", '*'));
+    
+    }
 }
