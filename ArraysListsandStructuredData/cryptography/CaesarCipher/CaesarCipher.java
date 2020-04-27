@@ -47,13 +47,16 @@ public class CaesarCipher {
         String decrypted = encrypt(encrypted, 26-key);
         System.out.println(decrypted); */
         
-        out.println(encrypt("First Legion", 23));
-        out.println(encrypt("First Legion", 17));
+        out.println(encrypt("At noon be in the conference room with your hat on for a surprise party. YELL LOUD!", 
+                    15));
+        //out.println(encrypt("First Legion", 17));
     }
     
     public void testEncryptTwoKeys(){
-        out.println(encryptTwoKeys("First Legion", 23, 17));
+        out.println(encryptTwoKeys("At noon be in the conference room with your hat on for a surprise party. YELL LOUD!",
+                                    8, 21));
     }
+    
     
     public String encryptTwoKeys(String input, int key1, int key2){
         StringBuilder encrypted = new StringBuilder(input);
@@ -106,8 +109,7 @@ public class CaesarCipher {
             }
             //do nothing if not a letter, continue looping
         }
-        
-        
+
         return encrypted.toString();
     }
     

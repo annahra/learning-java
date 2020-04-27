@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=WordLengths
+comment0.text=\r\n\ Figures\ out\ the\ most\ common\ word\ length\ of\ words\ from\ a\ file.\ We\ will\ need\ to\ keep\ track\ of\ how\ many\ words\ from\ a\ file\r\n\ are\ of\ each\ possible\ length.\ \r\n\ @author\ Annah\r\n\ @version\ April\ 27,\ 2020\r\n
+comment1.params=resource\ counts
+comment1.target=void\ countWordLengths(edu.duke.FileResource,\ int[])
+numComments=2
