@@ -1,0 +1,4 @@
+Caesar Cipher Overview:
+- substitute each letter by some number N
+
+StringBuilder is like a string except you can change it
