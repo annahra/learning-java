@@ -8,19 +8,20 @@ import edu.duke.*;
 public class TestCaesarCipher {
     
     public void simpleTests(){
-        FileResource fr = new FileResource();
-        String message = fr.asString();
-        
-        CaesarCipher cc = new CaesarCipher(18);
+        //FileResource fr = new FileResource();
+        //String message = fr.asString();
+        String message = "Can you imagine life WITHOUT the internet AND computers in your pocket?";
+        CaesarCipher cc = new CaesarCipher(15);
         String encrypted = cc.encrypt(message);
         
+        System.out.println();
         System.out.println("The message: ");
         System.out.println(message);
         System.out.println("Encrypted: ");
         System.out.println(encrypted);
         System.out.println("Decrypted using method in this class: ");
-        System.out.println(breakCaesarCipher(encrypted));
-        //System.out.println(cc.decrypt(encrypted));
+        //System.out.println(breakCaesarCipher(encrypted));
+        System.out.println(cc.decrypt(encrypted));
     }
     
     public String breakCaesarCipher(String encrypted){
