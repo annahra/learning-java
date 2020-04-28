@@ -31,6 +31,10 @@ public class WordLengths {
                 //System.out.println("The word " + word + " is " + (lengthOfCurrWord));
                 //System.out.println("\t First: " + first + "\tLast: " + last);
             }
+            //if word length is greater or equal to last index of array, add it to last index
+            else if(lengthOfCurrWord >= (counts.length-1)){
+                counts[counts.length -1] += 1;
+            }
             //else, catches the cases where only 1 is not a letter
             else{
                 counts[lengthOfCurrWord-1] += 1;
@@ -39,13 +43,27 @@ public class WordLengths {
             }
         }
         
-        
         for(int k=0; k<counts.length; k++){
             if(counts[k] != 0){
                 System.out.println(counts[k]+" words of length "+k);
             }
         }
         
+        int maxInd = indexOfMax(counts);
+        
+        System.out.println();
+        System.out.println("Index of max word length: "+maxInd);
+    }
+    
+    public int indexOfMax(int[] values){
+        //returns index position of the largest element in the array values
+        int currMax = 0;
+        int currIndex = 0;
+        for(int k=0; k<values.length;k++){
+            int currValue = values[k];
+            if(currValue > currMax){currMax = currValue; currIndex = k;}
+        }
+        return currIndex;
     }
     
     public void testCountWordLengths(){
