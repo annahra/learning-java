@@ -7,6 +7,21 @@ import edu.duke.*;
  */
 public class CaesarBreaker {
     
+    public void testDecryptTwoKeys(){
+        CaesarCipher cc = new CaesarCipher();
+        FileResource fr = new FileResource();
+        String encrypted = fr.asString();
+        //String encrypted = cc.encryptTwoKeys(message,23,2);
+        
+        String decrypted = decryptTwoKeys(encrypted);
+        System.out.println();
+        System.out.println("Encrypted message: ");
+        System.out.println(encrypted);
+        System.out.println("Decrypted message: ");
+        System.out.println(decrypted);
+        
+    }
+    
     public void testDecrypt(){
         CaesarCipher cc = new CaesarCipher();
         FileResource fr = new FileResource();
@@ -20,6 +35,35 @@ public class CaesarBreaker {
         System.out.println("Decrypted message: ");
         System.out.println(decrypted);
     }
+    
+    public void testGetKey(){
+        CaesarCipher cc = new CaesarCipher();
+        FileResource fr = new FileResource();
+        String message = fr.asString();
+        int key = 15;
+        String encrypted = cc.encrypt(message,key);
+        
+        System.out.println("The key of " + message + " is: "+ getKey(encrypted));
+        System.out.println(decrypt(encrypted));
+    }
+    
+    public String decryptTwoKeys(String encrypted){
+        //determine decrypted message and return it
+        //print the two keys
+       
+        CaesarCipher cc = new CaesarCipher();
+        String firstHalf = halfOfString(encrypted,0);
+        String secondHalf = halfOfString(encrypted,1);
+        
+        int key1 = getKey(firstHalf);
+        int key2 = getKey(secondHalf);
+        //System.out.println("Inside decryptTwoKeys"+"\tKey 1: " +key1+ "\tKey2: " + key2);
+        
+        String decrypted = cc.encryptTwoKeys(encrypted,26-key1,26-key2);
+    
+        return decrypted;
+    }
+    
     
     public void testHalfOfString(){
         String message = "Qbkm Zgis";
@@ -79,9 +123,10 @@ public class CaesarBreaker {
             key = 26 - (4-maxIndex);
         }
         
+        /*
         for(int k=0; k<letterCounts.length;k++){
             System.out.println("Letter " + alphabet.substring(k,k+1)+": " + letterCounts[k]);
-        }
+        }*/
         
         //System.out.println("Max Index is: " + maxIndex);
         //System.out.println("Key is: " + key);
@@ -101,4 +146,21 @@ public class CaesarBreaker {
     
         return newString.toString();
     }
+    
+    public int getKey(String s){
+        //calls countletters to get array of letter freuencies in string s and then use max index
+        //to calc the index of the largest letter frequency, which is the location of 'e'
+        int[] freqs = countLetters(s);
+        int maxInd = indexOfMax(freqs);
+        //find the key of this message, assumes letter that appeared the most in the message is e
+        int key = maxInd - 4;
+        //if the max index is less than 4, wrap around the alphabet
+        if(maxInd<4){
+            key = 26 - (4-maxInd);
+        }
+        
+        return key;
+    }
+    
+    
 }

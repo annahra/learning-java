@@ -109,7 +109,9 @@ public class CaesarCipher {
             }
             //do nothing if not a letter, continue looping
         }
-
+        
+        
+        //System.out.println("Inside encryptTwoKeys"+"\tKey 1: " +key1+ "\tKey2: " + key2);
         return encrypted.toString();
     }
     
