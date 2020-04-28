@@ -8,9 +8,10 @@ import edu.duke.*;
 public class CaesarBreaker {
     
     public void testDecryptTwoKeys(){
-        CaesarCipher cc = new CaesarCipher();
+        //CaesarCipher cc = new CaesarCipher();
         FileResource fr = new FileResource();
         String encrypted = fr.asString();
+        //String encrypted = "Akag tjw Xibhr awoa aoee xakex znxag xwko";
         //String encrypted = cc.encryptTwoKeys(message,23,2);
         
         String decrypted = decryptTwoKeys(encrypted);
@@ -57,7 +58,7 @@ public class CaesarBreaker {
         
         int key1 = getKey(firstHalf);
         int key2 = getKey(secondHalf);
-        //System.out.println("Inside decryptTwoKeys"+"\tKey 1: " +key1+ "\tKey2: " + key2);
+        System.out.println("Inside decryptTwoKeys"+"\tKey 1: " +key1+ "\tKey2: " + key2);
         
         String decrypted = cc.encryptTwoKeys(encrypted,26-key1,26-key2);
     

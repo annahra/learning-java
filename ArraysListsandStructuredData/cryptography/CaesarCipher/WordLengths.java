@@ -32,7 +32,7 @@ public class WordLengths {
                 //System.out.println("\t First: " + first + "\tLast: " + last);
             }
             //if word length is greater or equal to last index of array, add it to last index
-            else if(lengthOfCurrWord >= (counts.length-1)){
+            else if(lengthOfCurrWord >= counts.length){
                 counts[counts.length -1] += 1;
             }
             //else, catches the cases where only 1 is not a letter
