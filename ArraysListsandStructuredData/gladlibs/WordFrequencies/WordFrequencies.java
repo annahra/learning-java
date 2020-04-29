@@ -41,10 +41,10 @@ public class WordFrequencies
     public void tester(){
         findUnique();
         System.out.println("# unique words: "+myWords.size());
-        
+        /*
         for(int k=0; k<myWords.size();k++){
             System.out.println(myWords.get(k) + ": "+ myFreqs.get(k));
-        }
+        }*/
         
         int index = findMax();
         System.out.println("max word/freq: "+myWords.get(index)+" "+myFreqs.get(index));

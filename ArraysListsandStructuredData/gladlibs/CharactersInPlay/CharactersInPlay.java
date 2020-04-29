@@ -16,23 +16,59 @@ public class CharactersInPlay {
     }
     
     public void tester(){
+        charNames.clear(); charCounts.clear();
         findAllCharacters();
-        int thresh = 10;
-        System.out.println();
+        int thresh = 5;
+        System.out.println("-------------");
         for(int k=0; k<charNames.size();k++){
             int numCount = charCounts.get(k);
             if (numCount > thresh){
                 System.out.println(charNames.get(k)+"\t"+charCounts.get(k));
             }
         }
+        
+        charactersWithNumParts(10,15);
+        System.out.println("-------------");
     }
     
-    public void charactersWithNumParts(int num1, int num2){
+    private void charactersWithNumParts(int num1, int num2){
+        /*
+        for(int k=0; k<charCounts.size();k++){
+            int count = charCounts.get(k);
+            //if count is greater than or equal to num1 and less than or equal to num2
+            if(count >= num1 && count <= num2){
+                //check the indices where the number of counts are the same
+                for(int i=k+1; i<charCounts.size();i++){
+                    //but only if its not the same index
+                    if(k != i){
+                        //if its a different index, grab the count
+                        int innerCount = charCounts.get(i);
+                        //if this innercount is equal to the outer count,
+                        if(innerCount == count){
+                            //print the following statements
+                            System.out.println();
+                            System.out.println("Following have the same amount of lines: " + charNames.get(i) + 
+                                                    " and " + charNames.get(k));
+                            //System.out.println("Num of lines: " + innerCount + " and " + count);
+                        }
+                    }
+                }
+            }
+        }*/
         
+        
+        for(int k=0; k<charCounts.size();k++){
+            int number = charCounts.get(k);
+            if(number >= num1 && number <= num2){
+                System.out.println("Following has greater than " + num1 + 
+                                    " but less than " + num2 + " counts " + "("+number+")");
+                System.out.println(charNames.get(k));
+            }
+        }
     }
     
     private void findAllCharacters(){
-        charNames.clear(); charCounts.clear();
+        
         //create a new fileresource
         FileResource fr = new FileResource();
         for(String line : fr.lines()){
