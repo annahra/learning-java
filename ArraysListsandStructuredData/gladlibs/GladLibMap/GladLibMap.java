@@ -9,6 +9,7 @@ import java.util.*;
 public class GladLibMap {
     private HashMap<String, ArrayList<String>> map;
     private ArrayList<String> usedList;
+    private ArrayList<String> consList;
     private Random myRandom;
     private static String dataSourceURL = "http://dukelearntoprogram.com/course3/data";
     private static String dataSourceDirectory = "data";
@@ -17,6 +18,7 @@ public class GladLibMap {
         map = new HashMap<String, ArrayList<String>>();
         myRandom = new Random();
         usedList = new ArrayList<String>();
+        consList = new ArrayList<String>();
         initializeFromSource(dataSourceDirectory);
     }
     
@@ -43,7 +45,8 @@ public class GladLibMap {
         if(label.equals("number")){
             return ""+myRandom.nextInt(50)+5;
         }
-        
+        boolean considered = consList.contains(label);
+        if(!considered){consList.add(label);}
         return randomFrom(map.get(label));
 
     }
@@ -68,7 +71,10 @@ public class GladLibMap {
             //check if the new word is in the usedlist
             boolean currUsed = usedList.contains(currSub);
             //if its not, set that to sub variable, add it to the list and set isitused to false
-            if(!currUsed){ sub = currSub; usedList.add(currSub);isItUsed=false;}
+            if(!currUsed){ 
+                sub = currSub; usedList.add(currSub);isItUsed=false;
+                //boolean considered = consList.contains();
+            }
         }
         
         return prefix+sub+suffix;
@@ -120,18 +126,41 @@ public class GladLibMap {
         return list;
     }
     
+    public int totalWordsInMap(){
+        int count = 0;
+        //iterate through mapp
+        for(String type : map.keySet()){
+            //grab the number of values in the key
+            int currNum = map.get(type).size();
+            count = count + currNum;
+        }
+        
+        return count;
+    }
     
+    public int totalWordsConsidered(){
+        int count = 0;
+        //iterate throuhg the considered list
+        
+        for(String type : consList){
+            int currCount = map.get(type).size();
+            count = count + currCount;
+        }
+        
+        return count;
+    }
     
     public void makeStory(){
         System.out.println("\n");
         System.out.println("---------");
-        String story = fromTemplate("data/madtemplate2.txt");
+        String story = fromTemplate("data/madtemplate3.txt");
         printOut(story, 60);
         System.out.println();
-        System.out.println("The following is the list of used words");
+        /*System.out.println("The following is the list of used words");
         for(int k=0; k<usedList.size();k++){
             System.out.println(usedList.get(k)+"\t");
-        }
+        }*/
+        System.out.println("Total words considered: " + totalWordsConsidered());
         System.out.println("---------");
         usedList.clear();
     }

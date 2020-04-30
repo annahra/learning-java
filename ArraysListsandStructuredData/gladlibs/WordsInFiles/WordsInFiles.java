@@ -37,11 +37,13 @@ public class WordsInFiles {
         System.out.println();
         System.out.println("The greatest number of files a word appear in is "+
                             maxNum+" and there are " + numInMax+ " such words: ");
-        for (String s : filesMax){
+        /*for (String s : filesMax){
             System.out.println("\""+s+"\""+" appears in the files ");
             printFilesIn(s);
-        }
+        }*/
         System.out.println("-----------");
+        //System.out.println(wordsInNumFiles(4).size() + " appear in 4 files.");
+        printFilesIn("tree");
     }
     
     private void printFilesIn(String word){

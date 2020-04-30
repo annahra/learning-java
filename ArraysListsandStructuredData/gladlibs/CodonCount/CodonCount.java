@@ -23,7 +23,7 @@ public class CodonCount {
         for(int rf=0;rf<3;rf++){
             buildCodonMap(rf, dnaStrand);
             String mostCommonCodon = getMostCommonCodon();
-            int start = 1; int end = 5;
+            int start = 6; int end = 7;
             System.out.println("Reading frame starting with " + rf + " results in " +
                                 map.size()+" unique codons");
             //for (String s: map.keySet()){
