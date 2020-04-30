@@ -15,8 +15,50 @@ public class WordsInFiles {
         map = new HashMap<String, ArrayList<String>>();
     }
     
+    public void tester(){
+        System.out.println("-----------");
+        //build hashmap of words out of group of files
+        buildWordFileMap();
+        //max num of files that a word appears in
+        int maxNum = maxNumber();
+        //arraylist of words with maximum number of appearances
+        ArrayList<String> filesMax = wordsInNumFiles(maxNum);
+        int numInMax = filesMax.size();
+        /*
+        if(map.size()<25){
+            for(String word : map.keySet()){
+                ArrayList<String> arL = map.get(word);
+                System.out.println("The word " + word + " appears in the following files: ");
+                for(String k : arL){
+                    System.out.println(k);
+                }
+            }
+        }*/
+        System.out.println();
+        System.out.println("The greatest number of files a word appear in is "+
+                            maxNum+" and there are " + numInMax+ " such words: ");
+        for (String s : filesMax){
+            System.out.println(s+" appears in the files ");
+            printFilesIn(s);
+        }
+        System.out.println("-----------");
+    }
+    
     private void printFilesIn(String word){
-        
+        //prints the names of the files this word appears in, one filename per line
+        //iterate through the map
+        for(String s : map.keySet()){
+            //check if that string is equal to the word
+            //if it is, print out everything in its arraylist
+            if(s.equals(word)){
+                //make the arraylist for this guy
+                ArrayList<String> al = map.get(s);
+                //iterate through the arraylist
+                for(String fileName : al){
+                    System.out.println(fileName);
+                }
+            }
+        }
     
     }
     
