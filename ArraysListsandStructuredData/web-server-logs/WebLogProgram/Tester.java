@@ -19,12 +19,36 @@ public class Tester
         System.out.println("-------------");
     }
     
+    public void testCountUniqueIPsInRange(){
+        System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("weblog1_log");
+        int low = 200; int high = 299;
+        int num = la.countUniqueIPsInRange(low,high);
+        System.out.println("There are "+num+" unique IP addresses that have status codes between "+
+                            low+" and "+high);
+        System.out.println("-------------");
+    }
+    
+    public void testUniqueIPVisitsOnDay(){
+        System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("weblog1_log");
+        String date = "Mar 17";
+        ArrayList<String> list = la.uniqueIPVisitsOnDay(date);
+        System.out.println("There are "+list.size()+" IP address that visisted on " + date);
+        for (String s : list){
+            System.out.println(s);
+        }
+        System.out.println("-------------");
+    }
+    
     public void testPrintAllHigherThanNum(){
         System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("short-test_log");
-        int num = 300;
-        la.printAllHigherThanNum(300);
+        la.readFile("weblog1_log");
+        int num = 400;
+        la.printAllHigherThanNum(num);
         System.out.println("-------------");
     }
     
