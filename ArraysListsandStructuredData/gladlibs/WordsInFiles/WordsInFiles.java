@@ -15,14 +15,28 @@ public class WordsInFiles {
         map = new HashMap<String, ArrayList<String>>();
     }
     
+    private void printFilesIn(String word){
+        
+    
+    }
+    
     private ArrayList<String> wordsInNumFiles(int number){
         //returns an arralylist of words that appear in exactly number of files
         //initialize the array list
         ArrayList<String> al = new ArrayList<String>();
         //iterate through the map
+        for(String s: map.keySet()){
+            //for each word/key grab the number of files that the word shows up in
+            int currNum = map.get(s).size();
+            //check if its equal to the number parameter
+            if(currNum == number){
+                //if it is, put it in the array list
+                al.add(s);
+            }
+            //if its not, do nothing
+        }
         
-        
-        return null;
+        return al;
     }
     
     private int maxNumber(){
