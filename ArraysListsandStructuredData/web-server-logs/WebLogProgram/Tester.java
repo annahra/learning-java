@@ -19,5 +19,10 @@ public class Tester
     
     public void testLogAnalyzer() {
         // complete method
+        System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("short-test_log");
+        la.printAll();
+        System.out.println("-------------");
     }
 }

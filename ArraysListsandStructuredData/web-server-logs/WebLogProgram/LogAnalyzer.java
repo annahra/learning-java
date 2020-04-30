@@ -15,10 +15,17 @@ public class LogAnalyzer
      
      public LogAnalyzer() {
          // complete constructor
+         records = new ArrayList<LogEntry>();
      }
         
      public void readFile(String filename) {
-         // complete method
+         // create a file resource and iterate over all the linse in the file
+         //for each line, create a log entry and tore it in teh records array list
+         FileResource fr = new FileResource(filename);
+         for (String line : fr.lines()){
+            LogEntry currEntry = WebLogParser.parseEntry(line);
+            records.add(currEntry);
+         }
      }
         
      public void printAll() {
