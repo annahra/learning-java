@@ -1,47 +1,36 @@
 import edu.duke.*;
 import java.util.*;
-
-public class GladLib {
-    private ArrayList<String> adjectiveList;
-    private ArrayList<String> nounList;
-    private ArrayList<String> colorList;
-    private ArrayList<String> countryList;
-    private ArrayList<String> nameList;
-    private ArrayList<String> animalList;
-    private ArrayList<String> timeList;
-    private ArrayList<String> verbList;
-    private ArrayList<String> fruitList;
-    
+/**
+ * Implementation of GladLibMap using HashMap
+ * 
+ * @author Annah
+ * @version April 29, 2020
+ */
+public class GladLibMap {
+    private HashMap<String, ArrayList<String>> map;
     private ArrayList<String> usedList;
-    
     private Random myRandom;
-    
     private static String dataSourceURL = "http://dukelearntoprogram.com/course3/data";
-    private static String dataSourceDirectory = "data";
+    private static String dataSourceDirectory = "/data";
     
-    public GladLib(){
+    public GladLibMap(){
+        map = new HashMap<String, ArrayList<String>>();
         initializeFromSource(dataSourceDirectory);
         myRandom = new Random();
         usedList = new ArrayList<String>();
-        
     }
     
-    
-    public GladLib(String source){
+    public GladLibMap(String source){
         initializeFromSource(source);
         myRandom = new Random();
     }
     
-    private void initializeFromSource(String source) {
-        adjectiveList= readIt(source+"/adjective.txt"); 
-        nounList = readIt(source+"/noun.txt");
-        colorList = readIt(source+"/color.txt");
-        countryList = readIt(source+"/country.txt");
-        nameList = readIt(source+"/name.txt");      
-        animalList = readIt(source+"/animal.txt");
-        timeList = readIt(source+"/timeframe.txt");
-        verbList = readIt(source+"/verb.txt");
-        fruitList = readIt(source+"/fruit.txt");
+    private void initializeFromSource(String source){
+        String[] labels = {"country", "noun", "animal", "adjective", "name", "color", "timeframe", "verb","fruit"};
+        for(String s : labels){
+            ArrayList<String> list = readIt(source+"/"+s+".txt");
+            map.put(s,list);
+        }
     }
     
     private String randomFrom(ArrayList<String> source){
@@ -50,37 +39,12 @@ public class GladLib {
     }
     
     private String getSubstitute(String label) {
-        if (label.equals("country")) {
-            return randomFrom(countryList);
-        }
-        if (label.equals("color")){
-            return randomFrom(colorList);
-        }
-        if (label.equals("noun")){
-            return randomFrom(nounList);
-        }
-        if (label.equals("name")){
-            return randomFrom(nameList);
-        }
-        if (label.equals("adjective")){
-            return randomFrom(adjectiveList);
-        }
-        if (label.equals("animal")){
-            return randomFrom(animalList);
-        }
-        if (label.equals("timeframe")){
-            return randomFrom(timeList);
-        }
-        if (label.equals("number")){
+        if(label.equals("number")){
             return ""+myRandom.nextInt(50)+5;
         }
-        if (label.equals("verb")){
-            return randomFrom(verbList);
-        }
-        if (label.equals("fruit")){
-            return randomFrom(fruitList);
-        }
-        return "**UNKNOWN**";
+        
+        return randomFrom(map.get(label));
+
     }
     
     private String processWord(String w){
@@ -158,17 +122,14 @@ public class GladLib {
     public void makeStory(){
         System.out.println("\n");
         System.out.println("---------");
-        String story = fromTemplate("datalong/madtemplate2.txt");
+        String story = fromTemplate("data/madtemplate2.txt");
         printOut(story, 60);
         System.out.println();
-        /*System.out.println("The following is the list of used words");
+        System.out.println("The following is the list of used words");
         for(int k=0; k<usedList.size();k++){
             System.out.println(usedList.get(k)+"\t");
-        }*/
+        }
         System.out.println("---------");
         usedList.clear();
     }
-    
-
-
 }

@@ -38,7 +38,7 @@ public class WordsInFiles {
         System.out.println("The greatest number of files a word appear in is "+
                             maxNum+" and there are " + numInMax+ " such words: ");
         for (String s : filesMax){
-            System.out.println(s+" appears in the files ");
+            System.out.println("\""+s+"\""+" appears in the files ");
             printFilesIn(s);
         }
         System.out.println("-----------");
