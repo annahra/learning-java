@@ -155,6 +155,8 @@ public class GladLib {
         return list;
     }
     
+    
+    
     public void makeStory(){
         System.out.println("\n");
         System.out.println("---------");

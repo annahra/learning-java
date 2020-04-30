@@ -11,16 +11,17 @@ public class GladLibMap {
     private ArrayList<String> usedList;
     private Random myRandom;
     private static String dataSourceURL = "http://dukelearntoprogram.com/course3/data";
-    private static String dataSourceDirectory = "/data";
+    private static String dataSourceDirectory = "data";
     
     public GladLibMap(){
         map = new HashMap<String, ArrayList<String>>();
-        initializeFromSource(dataSourceDirectory);
         myRandom = new Random();
         usedList = new ArrayList<String>();
+        initializeFromSource(dataSourceDirectory);
     }
     
     public GladLibMap(String source){
+        map = new HashMap<String, ArrayList<String>>();
         initializeFromSource(source);
         myRandom = new Random();
     }
@@ -118,6 +119,8 @@ public class GladLibMap {
         }
         return list;
     }
+    
+    
     
     public void makeStory(){
         System.out.println("\n");
