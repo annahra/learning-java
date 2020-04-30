@@ -34,5 +34,33 @@ public class LogAnalyzer
          }
      }
      
+     public void printAllHigherThanNum(int num){
+        ArrayList<LogEntry> hold = new ArrayList<LogEntry>();
+        for (LogEntry le : records){
+            //grab the status code
+            int currStatus = le.getStatusCode();
+            //check to see if its greater than the status code num
+            if (currStatus > num){
+                //if it is, add the record to hold
+                hold.add(le);
+            }
+        }
+        System.out.println("The following "+ hold.size()+" log entries have a status code greater than " + num);
+        for(LogEntry lE : hold){
+            System.out.println(lE);
+        }
+     }
+     
+     public int countUniqueIps(){
+         ArrayList<String> uniqueIPs = new ArrayList<String>();
+         //parse through the array list
+         for(LogEntry record : records){
+             //grab the ip address from the record
+             String currIP = record.getIpAddress();
+             //check to see if its in there, if its not, add it in
+             if (!uniqueIPs.contains(currIP)){uniqueIPs.add(currIP);}
+         }
+         return uniqueIPs.size();
+     }
      
 }
