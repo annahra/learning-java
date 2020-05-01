@@ -13,7 +13,7 @@ public class Tester
     public void testUniqueIP(){
         System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("short-test_log");
+        la.readFile("weblog2_log");
         int uniqueIPs = la.countUniqueIps();
         System.out.println("There are "+uniqueIPs+" unique IP addresses");
         System.out.println("-------------");
@@ -22,9 +22,9 @@ public class Tester
     public void testiPsWithMostVisitsOnDay(){
        System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("weblog3-short_log");
+        la.readFile("weblog2_log");
         HashMap<String, ArrayList<String>> ipsdays = la.iPsForDays();
-        String date = "Sep 30";
+        String date = "Sep 29";
         ArrayList<String> list = la.iPsWithMostVisitsOnDay(ipsdays,date);
         System.out.println("There are "+ list.size()+" IP addresses that visited the most on " + date);
         for (String s : list){
@@ -36,7 +36,7 @@ public class Tester
     public void testDayWithMostIPVisits(){
        System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("weblog3-short_log");
+        la.readFile("weblog2_log");
         HashMap<String, ArrayList<String>> ipsdays = la.iPsForDays();
         String day = la.dayWithMostIPVisits(ipsdays);
         System.out.println("The day with the most visits is " +day);
@@ -61,7 +61,7 @@ public class Tester
     public void testIPsMostVisits(){
        System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("weblog3-short_log");
+        la.readFile("weblog2_log");
         HashMap<String, Integer> visits = la.countVisitsPerIP();
         ArrayList<String> list = la.iPsMostVisits(visits);
         System.out.println("There are "+list.size()+" unique IP addresses with max visits");
@@ -74,7 +74,7 @@ public class Tester
     public void testMostNumberVisitsByIp(){
        System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("weblog3-short_log");
+        la.readFile("weblog2_log");
         HashMap<String, Integer> visits = la.countVisitsPerIP();
         int max = la.mostNumberVisitsByIP(visits);
         System.out.println("The maximum number of times an IP has visited is "+max);
@@ -96,7 +96,7 @@ public class Tester
     public void testCountUniqueIPsInRange(){
         System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("weblog1_log");
+        la.readFile("weblog2_log");
         int low = 200; int high = 299;
         int num = la.countUniqueIPsInRange(low,high);
         System.out.println("There are "+num+" unique IP addresses that have status codes between "+
@@ -107,8 +107,8 @@ public class Tester
     public void testUniqueIPVisitsOnDay(){
         System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
-        la.readFile("weblog1_log");
-        String date = "Mar 17";
+        la.readFile("weblog2_log");
+        String date = "Sep 27";
         ArrayList<String> list = la.uniqueIPVisitsOnDay(date);
         System.out.println("There are "+list.size()+" IP address that visisted on " + date);
         for (String s : list){
