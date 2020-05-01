@@ -34,6 +34,26 @@ public class LogAnalyzer
          }
      }
      
+     HashMap<String, Integer> countVisitsPerIP(){
+         HashMap<String, Integer> visits = new HashMap<String,Integer>();
+         //we need to parse through records
+         for (LogEntry record : records){
+            //get the ip address of current record
+            String currIP = record.getIpAddress();
+            //check if that ip address is in the hashmap
+            if(!visits.containsKey(currIP)){
+                //if its not, add it to the ip
+                visits.put(currIP,1);
+            }
+            //if it is in there, increment the value
+            else{
+                visits.put(currIP, visits.get(currIP)+1);
+            }
+         }
+         
+         return visits;
+     } 
+     
      public int countUniqueIPsInRange(int low, int high){
          ArrayList<String> uniqueIPs = new ArrayList<String>();
          for (LogEntry le : records){

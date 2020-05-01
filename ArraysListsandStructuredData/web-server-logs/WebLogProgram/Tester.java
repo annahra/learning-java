@@ -19,6 +19,18 @@ public class Tester
         System.out.println("-------------");
     }
     
+    public void testCountVisitsPerIP(){
+        System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("short-test_log");
+        HashMap<String, Integer> visits = la.countVisitsPerIP();
+        System.out.println("There are "+visits.size()+" unique IP addresses");
+        for (String ip : visits.keySet()){
+            System.out.println(ip+" visited  "+visits.get(ip)+" times");
+        }
+        System.out.println("-------------");
+    }
+    
     public void testCountUniqueIPsInRange(){
         System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
