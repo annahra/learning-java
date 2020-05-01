@@ -34,6 +34,31 @@ public class LogAnalyzer
          }
      }
      
+     public HashMap<String,ArrayList<String>> iPsForDays(){
+         HashMap<String,ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
+         //iterate through each record
+         for (LogEntry le : records){
+            //get the date of the record
+            String currDate = le.getAccessTime().toString().substring(4,10);
+            String currIP = le.getIpAddress();
+            //check if that date is in the map
+            if(!map.containsKey(currDate)){
+                //if it doesnt, add it to key, and add currIP to value
+                //make array list
+                ArrayList<String> newList = new ArrayList<String>();
+                newList.add(currIP);
+                map.put(currDate,newList);
+            }
+            //if it is in there
+            else{
+                //add the currIp to the array list
+                map.get(currDate).add(currIP);
+            }
+         }
+         
+         return map;
+     } 
+     
      public ArrayList<String> iPsMostVisits(HashMap<String,Integer> map){
          ArrayList<String> holder = new ArrayList<String>();
          //holds max number

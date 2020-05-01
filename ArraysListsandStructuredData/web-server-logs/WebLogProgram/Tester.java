@@ -19,6 +19,21 @@ public class Tester
         System.out.println("-------------");
     }
     
+    public void testIPsForDays(){
+       System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("weblog3-short_log");
+        HashMap<String, ArrayList<String>> ipsdays = la.iPsForDays();
+        for (String date : ipsdays.keySet()){
+            ArrayList<String> currList = ipsdays.get(date);
+            System.out.println(date + " ("+currList.size()+")");
+            for(String ip : currList){
+                System.out.println("\t"+ip);
+            }
+        }
+        System.out.println("-------------"); 
+    }
+
     public void testIPsMostVisits(){
        System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
