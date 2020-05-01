@@ -2,9 +2,11 @@
 comment0.target=Tester
 comment0.text=\r\n\ Tests\r\n\ \r\n\ @author\ Annah\r\n\ @version\ May\ 1\ 2020\r\n
 comment1.params=
-comment1.target=void\ testVigenereCipher()
+comment1.target=void\ testSliceString()
 comment2.params=
-comment2.target=void\ testCaesarCracker()
+comment2.target=void\ testVigenereCipher()
 comment3.params=
-comment3.target=void\ testCaesarCipher()
-numComments=4
+comment3.target=void\ testCaesarCracker()
+comment4.params=
+comment4.target=void\ testCaesarCipher()
+numComments=5

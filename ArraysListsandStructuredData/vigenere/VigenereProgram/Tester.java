@@ -7,6 +7,26 @@ import edu.duke.*;
  */
 public class Tester {
    
+   public void testSliceString(){
+       String message = "";
+       VigenereBreaker vb = new VigenereBreaker();
+       System.out.println("---------------");
+       System.out.println("0 and 3: "+vb.sliceString("abcdefghijklm", 0, 3));
+       System.out.println("1 and 3: "+vb.sliceString("abcdefghijklm", 1, 3));
+       System.out.println("2 and 3: "+vb.sliceString("abcdefghijklm", 2, 3));
+       System.out.println("0 and 4: "+vb.sliceString("abcdefghijklm", 0, 4));
+       System.out.println("1 and 4: "+vb.sliceString("abcdefghijklm", 1, 4));
+       System.out.println("2 and 4: "+vb.sliceString("abcdefghijklm", 2, 4));
+       System.out.println("3 and 4: "+vb.sliceString("abcdefghijklm", 3, 4));
+       System.out.println("0 and 5: "+vb.sliceString("abcdefghijklm", 0, 5));
+       System.out.println("1 and 5: "+vb.sliceString("abcdefghijklm", 1, 5));
+       System.out.println("2 and 5: "+vb.sliceString("abcdefghijklm", 2, 5));
+       System.out.println("3 and 5: "+vb.sliceString("abcdefghijklm", 3, 5));
+       System.out.println("4 and 5: "+vb.sliceString("abcdefghijklm", 4, 5));
+       System.out.println("---------------");
+   }
+
+   
    public void testVigenereCipher(){
       FileResource fr = new FileResource();
       String message = fr.asString(); 
