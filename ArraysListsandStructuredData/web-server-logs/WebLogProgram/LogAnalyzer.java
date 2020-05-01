@@ -34,6 +34,24 @@ public class LogAnalyzer
          }
      }
      
+     public String dayWithMostIPVisits(HashMap<String,ArrayList<String>> map){
+         String theDay = "";
+         int max = 0;
+         for (String day : map.keySet()){
+            //grab number of ips
+            int currVisits = map.get(day).size();
+            if(max==0){max = currVisits; theDay = day;}
+            else{
+                if(currVisits > max){
+                    max = currVisits;
+                    theDay = day;
+                }
+            }
+         }
+         
+         return theDay;
+     }
+     
      public HashMap<String,ArrayList<String>> iPsForDays(){
          HashMap<String,ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
          //iterate through each record
