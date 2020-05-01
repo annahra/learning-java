@@ -11,7 +11,8 @@ public class Tester {
       FileResource fr = new FileResource();
       String message = fr.asString();
       VigenereBreaker vb = new VigenereBreaker();
-      String keyString = "flute"; int klength = keyString.length();
+      //String keyString = "flute"; 
+      int klength = 38;
       char c = 'e';
       int[] key = vb.tryKeyLength(message,klength,c);
       System.out.println("---------------");
