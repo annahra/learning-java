@@ -34,7 +34,41 @@ public class LogAnalyzer
          }
      }
      
-     HashMap<String, Integer> countVisitsPerIP(){
+     public ArrayList<String> iPsMostVisits(HashMap<String,Integer> map){
+         ArrayList<String> holder = new ArrayList<String>();
+         //holds max number
+         int max = mostNumberVisitsByIP(map);
+         //go through the map
+         for (String ip : map.keySet()){
+            //grab current number of visits
+            int numVisits = map.get(ip);
+            if(numVisits == max){
+                holder.add(ip);
+            }
+         }
+         
+         return holder;
+     }
+     
+     public int mostNumberVisitsByIP(HashMap<String,Integer> map){
+         int max = 0;
+         //iterate through map
+         for (String ip : map.keySet()){
+            //grab the current number of visits
+            int numVisits = map.get(ip);
+            //initialize
+            if(max==0){max = numVisits;}
+            else{
+                if(numVisits > max){
+                    max = numVisits;
+                }
+            }
+         }
+         
+         return max;
+     }
+     
+     public HashMap<String, Integer> countVisitsPerIP(){
          HashMap<String, Integer> visits = new HashMap<String,Integer>();
          //we need to parse through records
          for (LogEntry record : records){

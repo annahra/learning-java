@@ -19,6 +19,29 @@ public class Tester
         System.out.println("-------------");
     }
     
+    public void testIPsMostVisits(){
+       System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("weblog3-short_log");
+        HashMap<String, Integer> visits = la.countVisitsPerIP();
+        ArrayList<String> list = la.iPsMostVisits(visits);
+        System.out.println("There are "+list.size()+" unique IP addresses with max visits");
+        for (String s : list){
+            System.out.println(s);
+        }
+        System.out.println("-------------"); 
+    }
+    
+    public void testMostNumberVisitsByIp(){
+       System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("weblog3-short_log");
+        HashMap<String, Integer> visits = la.countVisitsPerIP();
+        int max = la.mostNumberVisitsByIP(visits);
+        System.out.println("The maximum number of times an IP has visited is "+max);
+        System.out.println("-------------"); 
+    }
+    
     public void testCountVisitsPerIP(){
         System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
