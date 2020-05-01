@@ -34,6 +34,38 @@ public class LogAnalyzer
          }
      }
      
+     public ArrayList<String> iPsWithMostVisitsOnDay(HashMap<String,ArrayList<String>> map, String day){
+         ArrayList<String> ipList = new ArrayList<String>();
+         HashMap<String,Integer> uniqueMap = new HashMap<String,Integer>();
+         
+         for (String currDay : map.keySet()){
+             
+             if(currDay.equals(day)){
+                 ArrayList<String> uniqueList = map.get(currDay);
+                 
+                 for (String ip : uniqueList){
+                     if(!uniqueMap.containsKey(ip)){
+                         uniqueMap.put(ip,1);
+                     }
+                     else{
+                         uniqueMap.put(ip,uniqueMap.get(ip)+1);
+                     }
+                     
+                 }
+                 //finished building hashmap of address in that date and occurances
+             }
+             
+         }
+         
+         ipList = iPsMostVisits(uniqueMap);
+         
+         //for(String s: uniqueMap.keySet()){
+         //    System.out.println(s+"\t"+uniqueMap.get(s));
+         //}
+         
+         return ipList;
+     }
+     
      public String dayWithMostIPVisits(HashMap<String,ArrayList<String>> map){
          String theDay = "";
          int max = 0;

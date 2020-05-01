@@ -19,6 +19,20 @@ public class Tester
         System.out.println("-------------");
     }
     
+    public void testiPsWithMostVisitsOnDay(){
+       System.out.println("-------------");
+        LogAnalyzer la = new LogAnalyzer();
+        la.readFile("weblog3-short_log");
+        HashMap<String, ArrayList<String>> ipsdays = la.iPsForDays();
+        String date = "Sep 30";
+        ArrayList<String> list = la.iPsWithMostVisitsOnDay(ipsdays,date);
+        System.out.println("There are "+ list.size()+" IP addresses that visited the most on " + date);
+        for (String s : list){
+            System.out.println(s);
+        }
+        System.out.println("-------------"); 
+    }
+    
     public void testDayWithMostIPVisits(){
        System.out.println("-------------");
         LogAnalyzer la = new LogAnalyzer();
