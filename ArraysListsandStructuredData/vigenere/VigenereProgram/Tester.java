@@ -7,6 +7,24 @@ import edu.duke.*;
  */
 public class Tester {
    
+   public void testTryKeyLength(){
+      FileResource fr = new FileResource();
+      String message = fr.asString();
+      VigenereBreaker vb = new VigenereBreaker();
+      String keyString = "flute"; int klength = keyString.length();
+      char c = 'e';
+      int[] key = vb.tryKeyLength(message,klength,c);
+      System.out.println("---------------");
+      System.out.println("The message: ");
+      System.out.println(message);
+      System.out.println("The key: ");
+      for (int i=0; i<key.length; i++){
+          System.out.print("\t"+key[i]);
+      }
+      System.out.println();
+      System.out.println("---------------");
+   } 
+   
    public void testSliceString(){
        String message = "";
        VigenereBreaker vb = new VigenereBreaker();
@@ -41,7 +59,7 @@ public class Tester {
       System.out.println(encrypted);
       System.out.println("Decrypted: ");
       System.out.println(decrypted);
-      System.out.println("They keys were: ");
+      System.out.println("The keys were: ");
       for(int k=0; k<key.length;k++){
           System.out.print("\t"+key[k]);
       }

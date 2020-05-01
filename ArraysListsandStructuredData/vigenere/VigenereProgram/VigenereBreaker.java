@@ -17,12 +17,36 @@ public class VigenereBreaker {
 
     public int[] tryKeyLength(String encrypted, int klength, char mostCommon) {
         int[] key = new int[klength];
-        //WRITE YOUR CODE HERE
+        //make a new caesar cracker class,
+        CaesarCracker cc = new CaesarCracker(mostCommon);
+        //iterate through the message
+        for(int k=0;k<klength;k++){
+            //find a string for this key
+            String currSlice = sliceString(encrypted,k,klength);
+            //find the key for that slice
+            int currKey = cc.getKey(currSlice);
+            key[k] = currKey;
+        }
+
         return key;
     }
 
     public void breakVigenere () {
-        //WRITE YOUR CODE HERE
+        //the encrypted message which comes from a file
+        FileResource fr = new FileResource();
+        String encrypted = fr.asString();
+        //need to know the key length
+        int klength = 5;
+        //need to know most common character
+        char c = 'e';
+        int[] key = tryKeyLength(encrypted,klength,c);
+        //create new vigenere cipher
+        VigenereCipher vc = new VigenereCipher(key);
+        String decrypted = vc.decrypt(encrypted);
+        System.out.println("---------------");
+        //System.out.println(encrypted);
+        System.out.println(decrypted);
+        System.out.println("---------------");
     }
     
 }
