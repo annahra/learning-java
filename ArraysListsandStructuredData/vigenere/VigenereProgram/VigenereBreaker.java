@@ -55,7 +55,7 @@ public class VigenereBreaker {
     
     public String breakForLanguage(String encrypted, HashSet<String> dictionary){
         //try all key lengths from 1 to 100
-        char mostCommon = 'e';
+        char mostCommon = mostCommonCharIn(dictionary);
         int max = 0;
         String decryption = "";
         int[] theKey = {};
@@ -78,9 +78,13 @@ public class VigenereBreaker {
         //find which decryption gives the largest count  of real words and return it
         //System.out.println("This file contains " + max+" valid words");
         //System.out.println("The key of length "+ theKey.length+" : ");
-        //for (int i=0;i<theKey.length;i++){
-        //    System.out.print("\t"+theKey[i]);
-        //}
+        for (int i=0;i<theKey.length;i++){
+            if(theKey.length<10){
+                System.out.println();
+                System.out.println("The key is: " + "\t"+theKey[i]);
+                
+            }
+        }
         System.out.println();
         return decryption;
     }
@@ -127,28 +131,76 @@ public class VigenereBreaker {
         return ans;
     }
     
+    public void breakForAllLangs(String encrypted, HashMap<String,HashSet<String>> languages){
+        //String english = "English"; String danish = "Danish"; String dutch = "Dutch";
+        //String french = "French"; String german = "German"; String italian = "Italian";
+        //String portuguese = "Portuguese"; String spanish = "Spanish";
+        //String breakForLanguage(String encrypted, HashSet<String> dictionary)
+        //breakForLanguage(String encrypted, HashSet<String> dictionary)
+        //int countWords(String message, HashSet<String> dictionary)
+        int max = 0;
+        String decrypted = "";
+        String rightLang = "";
+        //iterate through the hashmap
+        for(String language : languages.keySet()){
+            HashSet<String> currDict = languages.get(language);
+            System.out.println(language+":");
+            String currDecrypt = breakForLanguage(encrypted, currDict);
+            int currMax = countWords(currDecrypt, currDict);
+            if(max==0){max = currMax; decrypted = currDecrypt;rightLang=language;}
+            else{
+                if(currMax>max){max = currMax; decrypted = currDecrypt;rightLang=language;}
+            }
+        }
+        
+        System.out.println("The language of the message: "+rightLang);
+        System.out.println("The number of matched words in the message in this lang: " + max);
+        System.out.println("The decrypted message: ");
+        System.out.println(decrypted);
+    }
+    
     public void breakVigenere () {
-        //the encrypted message which comes from a file
+        //for unknown language
+        //make hashpmap of language to hashset of dictionaries in that language
+        HashMap<String,HashSet<String>> langDict = new HashMap<String,HashSet<String>>();
+        //start adding the languages in
+        String[] languages = {"Danish","Dutch","English","French","German",
+                              "Italian", "Portuguese", "Spanish"};
         FileResource fr = new FileResource();
         String encrypted = fr.asString();
+        System.out.println("---------------");
+        for (String lang : languages){
+            FileResource currDict = new FileResource("dictionaries/"+lang);
+            langDict.put(lang,readDictionary(currDict));
+            System.out.println("Successfully read "+lang+" dictionary");
+        }
+        
+        breakForAllLangs(encrypted,langDict);
+        
+        
+        System.out.println("---------------");
+        //for unknown key length
+        //the encrypted message which comes from a file
+        //FileResource fr = new FileResource();
+        //String encrypted = fr.asString();
         //read in the dictionary
-        FileResource dict = new FileResource("dictionaries/English");
-        HashSet<String> dictionary = readDictionary(dict);
+        //FileResource dict = new FileResource("dictionaries/English");
+        //HashSet<String> dictionary = readDictionary(dict);
         
         //getting num of valid words with some key length
-        int wrongKeyLength = 38;
-        int[] wrongKey = tryKeyLength(encrypted, wrongKeyLength, 'e');
-        VigenereCipher wrong = new VigenereCipher(wrongKey);
-        int numWords = countWords(wrong.decrypt(encrypted),dictionary);
+        //int wrongKeyLength = 38;
+        //int[] wrongKey = tryKeyLength(encrypted, wrongKeyLength, 'e');
+        //VigenereCipher wrong = new VigenereCipher(wrongKey);
+        //int numWords = countWords(wrong.decrypt(encrypted),dictionary);
         
         
-        System.out.println("---------------");
+        //System.out.println("---------------");
         //String decrypted = breakForLanguage(encrypted,dictionary);
         //System.out.println("The decryption: ");
-        System.out.println("The number of valid words with key length "+
-                            wrongKeyLength+" is: "+numWords);
+        //System.out.println("The number of valid words with key length "+
+         //                   wrongKeyLength+" is: "+numWords);
         //System.out.println(decrypted.substring(0,200));
-        System.out.println("---------------");
+        //System.out.println("---------------");
     }
     
 }
