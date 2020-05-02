@@ -147,6 +147,7 @@ public class VigenereBreaker {
             System.out.println(language+":");
             String currDecrypt = breakForLanguage(encrypted, currDict);
             int currMax = countWords(currDecrypt, currDict);
+            System.out.println(currMax+" matched words in "+language);
             if(max==0){max = currMax; decrypted = currDecrypt;rightLang=language;}
             else{
                 if(currMax>max){max = currMax; decrypted = currDecrypt;rightLang=language;}
