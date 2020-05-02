@@ -132,12 +132,6 @@ public class VigenereBreaker {
     }
     
     public void breakForAllLangs(String encrypted, HashMap<String,HashSet<String>> languages){
-        //String english = "English"; String danish = "Danish"; String dutch = "Dutch";
-        //String french = "French"; String german = "German"; String italian = "Italian";
-        //String portuguese = "Portuguese"; String spanish = "Spanish";
-        //String breakForLanguage(String encrypted, HashSet<String> dictionary)
-        //breakForLanguage(String encrypted, HashSet<String> dictionary)
-        //int countWords(String message, HashSet<String> dictionary)
         int max = 0;
         String decrypted = "";
         String rightLang = "";
