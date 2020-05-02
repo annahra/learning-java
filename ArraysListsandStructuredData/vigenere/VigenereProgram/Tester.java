@@ -1,4 +1,5 @@
 import edu.duke.*;
+import java.util.*;
 /**
  * Tests
  * 
@@ -6,6 +7,16 @@ import edu.duke.*;
  * @version May 1 2020
  */
 public class Tester {
+   
+   public void testMostCommonCharIn(){
+       FileResource fr = new FileResource();
+       VigenereBreaker vb = new VigenereBreaker();
+       HashSet<String> dictionary = vb.readDictionary(fr);
+       char c = vb.mostCommonCharIn(dictionary);
+       System.out.println("---------------");
+       System.out.println("The most common character is: "+c);
+       System.out.println("---------------");
+   } 
    
    public void testTryKeyLength(){
       FileResource fr = new FileResource();

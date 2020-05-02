@@ -76,13 +76,55 @@ public class VigenereBreaker {
             }
         }
         //find which decryption gives the largest count  of real words and return it
-        System.out.println("This file contains " + max+" valid words");
-        System.out.println("The key of length "+ theKey.length+" : ");
-        for (int i=0;i<theKey.length;i++){
-            System.out.print("\t"+theKey[i]);
-        }
+        //System.out.println("This file contains " + max+" valid words");
+        //System.out.println("The key of length "+ theKey.length+" : ");
+        //for (int i=0;i<theKey.length;i++){
+        //    System.out.print("\t"+theKey[i]);
+        //}
         System.out.println();
         return decryption;
+    }
+    
+    public char mostCommonCharIn(HashSet<String> dictionary){
+        
+        //initialize a hash map with key String and value integer
+        HashMap<Character,Integer> count = new HashMap<Character,Integer>();
+        //iterate through the dictionary
+        for(String word : dictionary){
+            //make a string builder of the word so we can grab each character
+            StringBuilder sb = new StringBuilder(word);
+            //iterate through each character
+            for(int i=0;i<word.length();i++){
+                //grab the character at this index and turn to string
+                char currChar = sb.charAt(i);
+                //another string builder to turn character into a string
+                if(!count.containsKey(currChar)){
+                    //if current letter isnt in the counting hashmap, add it add 1
+                    count.put(currChar,1);
+                }
+                else{
+                    //if current letter is in the hashmap, increment the count
+                    count.put(currChar,count.get(currChar)+1);
+                }
+                
+            }
+        }
+        //at this point, the hash map has been built. time to compare all of the values to themax
+        int max = 0;
+        Character ans = 'a';
+        for(Character letter : count.keySet()){
+            //grab curr number of occurence
+            int currNum = count.get(letter);
+            if(max==0){max=currNum; ans = letter;}
+            else{
+                if (currNum > max){
+                    max = currNum;
+                    ans = letter;
+                }
+            }
+        }
+        //how we have the letter that appears the most, but it is a string
+        return ans;
     }
     
     public void breakVigenere () {
