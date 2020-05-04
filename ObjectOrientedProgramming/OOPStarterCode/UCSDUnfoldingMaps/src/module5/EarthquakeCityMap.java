@@ -170,30 +170,70 @@ public class EarthquakeCityMap extends PApplet {
 		// from getting too long/disorganized
 		//tests if lastClick variable refers to nullobject or not
 		boolean click = lastClicked == null;
-		if(!click) {unhideMarkers();}
+		//System.out.println(lastClicked);
+		if(!click) {
+			lastClicked=null;
+			//System.out.println("I've nulled this earthquake, supposedly");
+			map.zoomToLevel(2);
+			unhideMarkers();
+		}
 		else {
-			//for earthquake
-			for(Marker em : quakeMarkers) {
-				boolean daClick = ((CommonMarker)em).getClicked();
-				if(daClick) {
+			//iterating through city and earthquake markers to see if they were clicked
+			for (Marker em: quakeMarkers) {
+				if(em.isInside(map, (float)mouseX, (float)mouseY) && lastClicked == null) {
+					((CommonMarker)em).setClicked(true);
+					lastClicked = (CommonMarker) em;
+					map.zoomAndPanTo(mouseX,mouseY,4);
 					double threat = ((EarthquakeMarker)em).threatCircle();
 					emClick(em, threat);
+					//System.out.println("Clicked on "+((EarthquakeMarker)em).getTitle());
 				}
-				
 			}
+			for (Marker cm : cityMarkers) {
+				if(cm.isInside(map, (float)mouseX, (float)mouseY) && lastClicked == null) {
+					((CommonMarker)cm).setClicked(true);
+					lastClicked = (CommonMarker)cm;
+					map.zoomAndPanTo(mouseX,mouseY,4);
+					cmClick(cm);
+				}
+			}
+
 		}
 		
+	}
+	
+	public void cmClick(Marker cm) {
+		for (Marker e: quakeMarkers) {
+			double threat = ((EarthquakeMarker)e).threatCircle();
+			double distanceTo = cm.getDistanceTo(e.getLocation());
+			if(distanceTo <= threat) {
+				e.setHidden(false);
+			}
+			else {
+				e.setHidden(true);
+			}
+		}
+		for(Marker m: cityMarkers) {
+			if(m != cm) {m.setHidden(true);}
+		}
 	}
 	
 	public void emClick(Marker em, double threat) {
 		for (Marker c : cityMarkers) {
 			double distanceTo = em.getDistanceTo(c.getLocation());
-			if(distanceTo < threat) {
+			//System.out.println("Threat circle radius: " + threat);
+			//System.out.println("Distance from "+ ((EarthquakeMarker)em).getTitle()+
+			//					" and " + ((CityMarker)c).getCity()+" :" + distanceTo);
+			//System.out.println(distanceTo <= threat);
+			if(distanceTo <= threat) {
 				c.setHidden(false);
 			}
 			else {
 				c.setHidden(true);
 			}
+		}
+		for(Marker m : quakeMarkers) {
+			if(m != em) {m.setHidden(true);}
 		}
 	}
 	
