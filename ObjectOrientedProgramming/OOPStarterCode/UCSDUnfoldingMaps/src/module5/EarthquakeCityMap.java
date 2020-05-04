@@ -1,6 +1,7 @@
 package module5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -12,6 +13,7 @@ import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
@@ -70,7 +72,7 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 650, 600, new Microsoft.HybridProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -146,6 +148,13 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		for(Marker m : markers) {
+			if(m.isInside(map, (float)mouseX, (float)mouseY) && lastSelected == null) {
+				m.setSelected(true);
+				lastSelected = (CommonMarker) m;
+				//System.out.println(lastSelected);
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
@@ -159,8 +168,34 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		//tests if lastClick variable refers to nullobject or not
+		boolean click = lastClicked == null;
+		if(!click) {unhideMarkers();}
+		else {
+			//for earthquake
+			for(Marker em : quakeMarkers) {
+				boolean daClick = ((CommonMarker)em).getClicked();
+				if(daClick) {
+					double threat = ((EarthquakeMarker)em).threatCircle();
+					emClick(em, threat);
+				}
+				
+			}
+		}
+		
 	}
 	
+	public void emClick(Marker em, double threat) {
+		for (Marker c : cityMarkers) {
+			double distanceTo = em.getDistanceTo(c.getLocation());
+			if(distanceTo < threat) {
+				c.setHidden(false);
+			}
+			else {
+				c.setHidden(true);
+			}
+		}
+	}
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
