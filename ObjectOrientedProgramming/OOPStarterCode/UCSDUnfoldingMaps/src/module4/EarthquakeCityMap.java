@@ -79,10 +79,10 @@ public class EarthquakeCityMap extends PApplet {
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		earthquakesURL = "test2.atom";
+		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -144,16 +144,19 @@ public class EarthquakeCityMap extends PApplet {
 		text("Earthquake Key", 50, 75);
 		
 		fill(color(255, 0, 0));
-		ellipse(50, 125, 15, 15);
+		ellipse(50, 105, 15, 15);
 		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
+		ellipse(50, 125, 10, 10);
 		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
+		ellipse(50, 145, 5, 5);
+		fill(85, 0, 0);
+		triangle(45,283,50,270,55,283);
 		
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("Deep", 75, 105);
+		text("Intermediate", 75, 125);
+		text("Shallow", 75, 145);
+		text("City Marker", 75, 275);
 	}
 
 	

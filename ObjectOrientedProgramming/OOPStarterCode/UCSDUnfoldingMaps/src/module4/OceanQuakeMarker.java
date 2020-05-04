@@ -30,6 +30,18 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
+		//pg.rect(x,y,getMagnitude()*2,getMagnitude()*2);
+		//pg.rect(x-radius, y-radius, 2*radius, 2*radius);
+		float mag = getMagnitude();
+		if(mag < THRESHOLD_LIGHT) {
+			pg.rect(x-radius, y-radius, radius, radius);
+	    }
+	    else if (mag > THRESHOLD_LIGHT && mag < THRESHOLD_MODERATE) {
+	    	pg.rect(x-radius, y-radius, (float)1.5*radius, (float)1.5*radius);
+	    }
+	    else {
+	    	pg.rect(x-radius, y-radius, 2*radius, 2*radius);
+	    }
 		
 	}
 	
