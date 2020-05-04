@@ -1,0 +1,91 @@
+Inheritance:
+Goals:
+1. Keep common behavior in one class
+2. Split different behavior into separate classes
+3. Keep all the objects in a single data structure
+
+"extends" means "inherit from"
+
+What is inherited?
+- public instance variables
+- public methods
+- private instance variables (in a sense)
+	--> can only be accessed through public methods
+
+Compile time decisions: reference type
+Run time decisions: object type
+
+Visibility Modifiers:
+protected: can access from same class, same package, any subclass
+package(default): can access from same class, same package
+
+
+Object Creation in Java:
+All classes inherit from the Object class
+- constructors are initliazers (init)
+Objects are created from the inside out
+student() -> person() -> object() -> person() -> student()
+
+
+Compiler Rules for Class Construction:
+Your code --> Java compiler(processes code and inserts new commands) 
+--> Bytecode --> runs on Java Virtual Machine
+If there's no superclass, compiler extends Object
+If no constructor, Java gives you one
+"super()" has to be first line of a constructor
+
+
+Method Overriding:
+Keep common code in one parent class
+Overloading: same class has same method name with different parameters
+Overriding: sublcass has same method name with the same parameters as the superclass
+
+
+Polymorphism:
+Rules to Follow:
+Think like a compiler, act like a runtime environment
+
+Compile Time Rules:
+1. Compiler only knows the reference type
+2. Can only look in reference type class for method
+3. Outputs a method signature
+
+Run Time Rules:
+1. Follow exact runtime type of object to find method
+2. Must mach the compile time method signature to appropriate method in actual object's class
+
+Casting Objects:
+Automatic type promotion 
+--> can go from int to double, and can go from sublcass to superclass
+Superclass superRef = new Subclass(); (widening)
+Subclass ref = (Subclass) superRef; (narrowing)
+
+Runtime type check
+instanceof : provides runtime check of is-a relationship
+
+
+Abstract Classes and Interfaces:
+
+Abstract Classes:
+Can make any class abstract with keyword:
+public abstract class Person {}
+- means cannot create objects of this type (cant make objects of type person), but can create objects of derived class
+
+
+Class must be abstract if any methods are:
+public abstract void monthlyStatement()
+- concrete subclasses must override this method
+
+
+Abstract classes offer inheritance of both
+Implementation: instance variables and methods which define common behavior
+Interface: method signatures which define required behaviors
+
+
+If you want just interface, use Interfaces:
+Interfaces only define required methods
+Classes can inherit from multiple Interfaces
+
+
+If you want to define a required method: INTERFACE
+If you want to define potentially required methods AND common behavior: ABSTRACT CLASS
