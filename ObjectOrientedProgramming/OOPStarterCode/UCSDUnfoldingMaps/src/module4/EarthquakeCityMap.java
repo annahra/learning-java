@@ -1,6 +1,7 @@
 package module4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -13,6 +14,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -20,8 +22,8 @@ import processing.core.PApplet;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
- * Date: July 17, 2015
+ * @author Annah
+ * Date: May 3, 2020
  * */
 public class EarthquakeCityMap extends PApplet {
 	
@@ -68,7 +70,7 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 650, 600, new Microsoft.HybridProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -77,7 +79,7 @@ public class EarthquakeCityMap extends PApplet {
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+		earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -111,7 +113,7 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
+	    printQuakes(earthquakes);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -168,9 +170,13 @@ public class EarthquakeCityMap extends PApplet {
 		// country in m.  Notice that isInCountry takes a PointFeature
 		// and a Marker as input.  
 		// If isInCountry ever returns true, isLand should return true.
+		//isInCountry(PointFeature earthquake, Marker country)
 		for (Marker m : countryMarkers) {
 			// TODO: Finish this method using the helper method isInCountry
-			
+			boolean currLocation = isInCountry(earthquake, m);
+			if(currLocation) {
+				return true;
+			}
 		}
 		
 		
@@ -184,8 +190,10 @@ public class EarthquakeCityMap extends PApplet {
 	 * ...
 	 * OCEAN QUAKES: numOceanQuakes
 	 * */
-	private void printQuakes() 
+	private void printQuakes(List<PointFeature> earthquakes) 
 	{
+		// list country there were earthquakes and the number of earthquakes detected in that country
+		// then print out the number of quakes that were in the ocean
 		// TODO: Implement this method
 		// One (inefficient but correct) approach is to:
 		//   Loop over all of the countries, e.g. using 
@@ -197,7 +205,26 @@ public class EarthquakeCityMap extends PApplet {
 		//     	and (2) if it is on land, that its country property matches 
 		//      the name property of the country marker.   If so, increment
 		//      the country's counter.
-		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		for(PointFeature quake : earthquakes) {
+			//if it is on land, then it was assigned a country
+			if(isLand(quake)) {
+				//get country
+				String currCountry = (String)quake.getProperty("country");
+				//add country to the hashmap if its not there
+				if(!map.containsKey(currCountry)) {map.put(currCountry, 1);}
+				else {map.put(currCountry, map.get(currCountry)+1);}
+			}
+			else {
+				String ocean = "Ocean";
+				if(!map.containsKey(ocean)) {map.put(ocean, 1);}
+				else {map.put(ocean, map.get(ocean)+1);}
+			}
+			
+		}
+		for(String currLocation : map.keySet()) {
+			System.out.println(currLocation+": "+map.get(currLocation));
+		}
 		// Here is some code you will find useful:
 		// 
 		//  * To get the name of a country from a country marker in variable cm, use:
@@ -233,6 +260,7 @@ public class EarthquakeCityMap extends PApplet {
 					
 				// checking if inside
 				if(((AbstractShapeMarker)marker).isInsideByLocation(checkLoc)) {
+					//setting earthquake to be attached to a country
 					earthquake.addProperty("country", country.getProperty("name"));
 						
 					// return if is inside one
