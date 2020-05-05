@@ -81,7 +81,7 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		//earthquakesURL = "test1.atom";
+		earthquakesURL = "test1.atom";
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
@@ -116,8 +116,9 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
-	 		
+	    //printQuakes();
+	    sortAndPrint(3);
+	    
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
@@ -137,7 +138,43 @@ public class EarthquakeCityMap extends PApplet {
 	
 	
 	// TODO: Add the method:
-	//   private void sortAndPrint(int numToPrint)
+	private void sortAndPrint(int numToPrint) {
+		Marker[] arrayOfQuakes = new Marker[quakeMarkers.size()];
+		quakeMarkers.toArray(arrayOfQuakes);
+		int numInArray = arrayOfQuakes.length;
+		int currInd;
+		int i;
+		for(int pos=1; pos<numInArray;pos++) {
+			currInd = pos;
+			i = ((EarthquakeMarker) arrayOfQuakes[currInd]).compareTo((EarthquakeMarker) arrayOfQuakes[currInd-1]);
+			while (i> 0 && currInd > 0) {
+				EarthquakeMarker temp = (EarthquakeMarker) arrayOfQuakes[currInd];
+				arrayOfQuakes[currInd] = arrayOfQuakes[currInd-1];
+				arrayOfQuakes[currInd-1] = temp;
+				currInd = currInd -1;
+				if(currInd != 0) {
+					i = ((EarthquakeMarker) arrayOfQuakes[currInd]).compareTo((EarthquakeMarker) arrayOfQuakes[currInd-1]);
+				}
+			}
+		}
+		
+		//is numToPrint > numInArray?
+		if(numToPrint > numInArray) {
+			//print everything
+			for(Marker em: arrayOfQuakes) {
+				float currMag = ((EarthquakeMarker) em).getMagnitude();
+				String currTitle = ((EarthquakeMarker) em).getTitle();
+				System.out.println(currTitle + ": " + currMag);
+			}
+		}
+		else {
+			for(int k=0; k<numToPrint; k++) {
+				float currMag = ((EarthquakeMarker) arrayOfQuakes[k]).getMagnitude();
+				String currTitle = ((EarthquakeMarker) arrayOfQuakes[k]).getTitle();
+				System.out.println(currTitle + ": " + currMag);
+			}
+		}
+	}
 	// and then call that method from setUp
 	
 	/** Event handler that gets called automatically when the 
