@@ -67,7 +67,8 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 2) and 
 	    // EfficientDocument (module 3).
-	    return 0;
+		List<String> syll = getTokens("[aeiouy]+");
+	    return syll.size();
 	}
 	
 	/** A method for testing
