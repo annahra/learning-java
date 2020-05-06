@@ -2,7 +2,9 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
@@ -14,6 +16,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -41,8 +44,6 @@ public class EarthquakeCityMap extends PApplet {
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
 	
-	
-
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 	
@@ -50,6 +51,7 @@ public class EarthquakeCityMap extends PApplet {
 	private String cityFile = "city-data.json";
 	private String countryFile = "countries.geo.json";
 	
+	private String dateOfInterest = "2020-05-02";
 	// The map
 	private UnfoldingMap map;
 	
@@ -58,6 +60,10 @@ public class EarthquakeCityMap extends PApplet {
 	// Markers for each earthquake
 	private List<Marker> quakeMarkers;
 
+	Map<String, Integer> covidCasesByCountry;
+	ArrayList<Coronavirus> covidList;
+	
+	
 	// A List of country markers
 	private List<Marker> countryMarkers;
 	
@@ -69,11 +75,11 @@ public class EarthquakeCityMap extends PApplet {
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
 		if (offline) {
-		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
+		    map = new UnfoldingMap(this, 200, 50, 750, 600, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 275, 50, 650, 600, new Microsoft.HybridProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -81,12 +87,14 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		earthquakesURL = "test1.atom";
+		//earthquakesURL = "test1.atom";
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
+		Coronavirus[] covidCountryArray = loadCovidCasesFromCSV("../data/countries-aggregated.csv");
+		Coronavirus[] covidSortedArray = covidSortedArray(covidCountryArray);
 		
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
@@ -117,23 +125,149 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    //printQuakes();
-	    sortAndPrint(3);
+	    //sortAndPrint(20);
+	    printCovidSorted(covidSortedArray, 8);
 	    
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
+	    covidCasesByCountry = loadCovidCasesFromCSVHash("../data/countries-aggregated.csv");
+	    map.addMarkers(countryMarkers);
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
 	    
 	    
+	    shadeCountries();
 	}  // End setup
 	
 	
+	private Map<String, Integer> loadCovidCasesFromCSVHash(String filename){
+		Map<String, Integer> countryMap = new HashMap<String, Integer>(); 
+		String[] rows = loadStrings(filename);
+		for (String row : rows) {
+			String[] columns = row.split(",");
+			String currDate = columns[0];
+			//check if date is date of interest
+			if(currDate.equals(dateOfInterest)) {
+				//grab the country
+				String currCountry = columns[1];
+				//System.out.println(currCountry+" "+currDate);
+				//if the country isn't in the hashmap
+				if(!countryMap.containsKey(currCountry)) {
+					//grab case count
+					Integer currCaseCount = Integer.parseInt(columns[2]);
+					//put the country and case count there
+					countryMap.put(currCountry,currCaseCount);
+				}
+			}
+		}
+		
+		return countryMap;
+	}
+	
+	public Coronavirus[] loadCovidCasesFromCSV(String filename){
+		covidList = new ArrayList<Coronavirus>();
+		String[] rows = loadStrings(filename);
+		for (String row : rows) {
+			String[] columns = row.split(",");
+			String currDate = columns[0];
+			//check if date is date of interest
+			if(currDate.equals(dateOfInterest)) {
+				//grab the country
+				String currCountry = columns[1];
+				//System.out.println(currCountry+" "+currDate);
+				//if the country isn't in the hashmap
+				if(!covidList.contains(currCountry)) {
+					//grab case count
+					Integer currCaseCount = Integer.parseInt(columns[2]);
+					//put the country and case count there
+					Coronavirus currCovid = new Coronavirus(currCountry,currCaseCount);
+					covidList.add(currCovid);
+				}
+			}
+		}
+		Coronavirus[] covidArray = new Coronavirus[covidList.size()];
+		covidList.toArray(covidArray);
+		return covidArray;
+	}
+	
+	public void printCovidSorted(Coronavirus[] covidArray, int num) {
+		if(covidArray.length < num) {
+			for(Coronavirus co : covidArray) {
+				System.out.println(co.getCountry()+": "+co.getCases());
+			}
+		}
+		else {
+			for(int k=0; k<num;k++) {
+				System.out.println(covidArray[k].getCountry()+": "+covidArray[k].getCases());
+			}
+		}
+	}
+	
+	private Coronavirus[] covidSortedArray(Coronavirus[] covidArray) {
+		int numInArray = covidArray.length;
+		int currInd;
+		int i;
+		for(int pos=1; pos<numInArray;pos++) {
+			currInd = pos;
+			i = ((Coronavirus) covidArray[currInd]).compareTo((Coronavirus) covidArray[currInd-1]);
+			while (i> 0 && currInd > 0) {
+				Coronavirus temp = (Coronavirus) covidArray[currInd];
+				covidArray[currInd] = covidArray[currInd-1];
+				covidArray[currInd-1] = temp;
+				currInd = currInd -1;
+				if(currInd != 0) {
+					i = ((Coronavirus) covidArray[currInd]).compareTo((Coronavirus) covidArray[currInd-1]);
+				}
+			}
+		}
+		return covidArray;
+	}
+	
+	private void shadeCountries() {
+		for(Marker marker : countryMarkers) {
+			String countryId = marker.getStringProperty("name");
+			//System.out.println(countryId);
+			if(covidCasesByCountry.containsKey(countryId)) {
+				Integer covidCases = covidCasesByCountry.get(countryId);
+				
+				if(covidCases < 10000) {marker.setColor(color(157, 158, 212));}
+				else if(covidCases > 10000 && covidCases < 50000) {
+					marker.setColor(color(90, 92, 165));
+				}
+				else if(covidCases > 50000 && covidCases < 100000) {
+					marker.setColor(color(39, 41, 118));
+				}
+				else if(covidCases > 100000 && covidCases < 500000){
+					marker.setColor(color(19, 21, 91));
+				}
+				else {
+					marker.setColor(color(0, 0, 10));
+				}
+				
+				//taking num of covid cases, we know it ranges between 0 and 1.5mil
+				//translate this to something to do with color, hence 10->255
+				//int colorLevel = (int) map(covidCases, 500000, 1000000, 10, 255);
+				//set countries with low covid cases to be bright blue, 
+				//countries with high covid cases to be bright red
+				//marker.setColor(color(colorLevel, 100, 255-colorLevel));
+				//System.out.println(covidCases);
+			}
+			else {
+				//if there is no value for covid in the current country,
+				//we color the marker gray
+				marker.setColor(color(150,150,150));
+			}
+		}
+		
+	}
+	
 	public void draw() {
 		background(0);
+		
 		map.draw();
 		addKey();
-		
+		addCoronaKey();
 	}
 	
 	
@@ -297,6 +431,44 @@ public class EarthquakeCityMap extends PApplet {
 		for(Marker marker : cityMarkers) {
 			marker.setHidden(false);
 		}
+	}
+	
+	private void addCoronaKey() 
+	{	
+		// Remember you can use Processing's graphics methods here
+		fill(50);
+		int y = 300;
+		int x = 25;
+		rect(50-x, 50+y, 215, 200);
+		
+		fill(255,255,255);
+		text("Coronavirus Cases (5/2/20)", 79-x, 85+y);
+		
+		fill(color(0, 0, 10));
+		ellipse(70-x,115+y,30,30);
+		fill(255,255,255);
+		text("Greater than 500,000", 95-x, 116+y);
+		
+		fill(color(19, 21, 91));
+		ellipse(70-x,150+y,20,20);
+		fill(255,255,255);
+		text("100,000 - 500,000", 95-x, 150+y);
+		
+		fill(color(39, 41, 118));
+		ellipse((float)70-x,(float)175+y,(float)16.5,(float)16.5);
+		fill(255,255,255);
+		text("50,000 - 100,000", 95-x, 175+y);
+		
+		fill(color(90, 92, 165));
+		ellipse(70-x,200+y,10,10);
+		fill(255,255,255);
+		text("10,000 - 50,000", 95-x, 200+y);
+		
+		fill(color(157, 158, 212));
+		ellipse((float)70-x,(float)220+y,(float)7,(float)7);
+		fill(255,255,255);
+		text("Less than 10,000", 95-x, 220+y);
+	
 	}
 	
 	// helper method to draw key in GUI
