@@ -37,11 +37,38 @@ public class DocumentBenchmarking {
 		// TODO: Fill in the rest of this method so that it runs two loops
 		// and prints out timing results as described in the assignment 
 		// instructions and following the pseudocode below.
+		System.out.print("NumChars"+"\t"+"Basic Document"+ "\t"+"Efficient Document");
+		System.out.println();
 		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
 				numToCheck += increment)
 		{
 			// numToCheck holds the number of characters that you should read from the 
 			// file to create both a BasicDocument and an EfficientDocument.  
+			System.out.print(numToCheck+"\t");
+			String currString = getStringFromFile(textfile,numToCheck); 
+			
+			//testing basic document
+			long bdStart = System.nanoTime();
+			for(int i=0; i<trials; i++) {
+				BasicDocument currDoc = new BasicDocument(currString);
+				double currFleschScore = currDoc.getFleschScore();
+			}
+			long bdEnd = System.nanoTime();
+			//long bdRun = bdEnd - bdStart;
+			double bdRun = (double)(bdEnd - bdStart)/(double)1000000000.0;
+			System.out.print(bdRun+"\t");
+			
+			//testing efficient document
+			long edStart = System.nanoTime();
+			for(int i=0; i<trials; i++) {
+				EfficientDocument currDoc = new EfficientDocument(currString);
+				double currFleschScore = currDoc.getFleschScore();
+			}
+			long edEnd = System.nanoTime();
+			//long edRun = bdEnd - bdStart;
+			double edRun = (double)(edEnd - edStart)/(double)1000000000.0;
+			System.out.print(edRun);
+			System.out.println();
 			
 			/* Each time through this loop you should:
 			 * 1. Print out numToCheck followed by a tab (\t) (NOT a newline)
