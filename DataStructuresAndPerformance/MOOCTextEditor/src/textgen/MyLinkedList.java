@@ -38,7 +38,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		else {
 			LLNode<E> temp = tail;
 			tail.next = endNode;
-			endNode = temp;
+			endNode.prev = temp;
 			tail = endNode;
 		}
 		this.size +=1;
