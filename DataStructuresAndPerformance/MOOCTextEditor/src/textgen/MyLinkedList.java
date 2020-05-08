@@ -77,7 +77,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public int size() 
 	{
 		// TODO: Implement this method
-		return -1;
+		return size;
 	}
 
 	/** Remove a node at the specified index and return its data element.
@@ -121,5 +121,18 @@ class LLNode<E>
 		this.prev = null;
 		this.next = null;
 	}
+	
+//	public String toString(String input) {
+//		if(input.equals("prev")) {
+//			return prev.getClass().getName()+'@'+Integer.toHexString(hashCode());
+//		}
+//		else if (input.equals("next")) {
+//			return next.getClass().getName()+'@'+Integer.toHexString(hashCode());
+//		}
+//		else {
+//			return getClass().getName()+'@'+Integer.toHexString(hashCode());
+//		}
+//		
+//	}
 
 }

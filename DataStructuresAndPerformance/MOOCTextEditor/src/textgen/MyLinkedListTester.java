@@ -124,7 +124,20 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
-		
+		//try adding null element, expect npe
+		try {
+			shortList.add(null);
+			fail("Did not catch null pointer");
+		}
+		catch (NullPointerException e){
+			
+		}
+		//test that next pointer of last node throws NPE
+		assertEquals("Check endNode.next is null",null,shortList.tail.next);
+		//check that tail is pointing to the last element
+		assertEquals("Check tail is pointing to element holding b","B",shortList.tail.data);
+		//test if node at size-1 index gives the node we just added
+		assertEquals("Check index size - 1","B",shortList.get(shortList.size-1));
 	}
 
 	
@@ -145,7 +158,41 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
+		//check if adding null element
+		try {
+			shortList.add(null);
+			fail("Did not catch null pointer");
+		}
+		catch (NullPointerException e){
+			
+		}
+		//SPECIAL CASE: at to front of list
+		//add something to the front
+		//shortList.add(0,"Z");
+		//check that prev pointer of first node is null
+//		assertEquals("Check firstNode.prev is null",null,shortList.head.prev);
+//		//check if head points to front node
+//		assertEquals("Check if head points to front node","Z",shortList.head.data);
+//		//check if index 0 gives that node
+//		assertEquals("Check index 0","Z",shortList.get(0));
 		
+		//GENERAL CASE: add to somewhere in between, add to index 5 of longerList
+		//longerList.add(5,182);
+//		LLNode<Integer> holder = longerList.head;
+//		LLNode<Integer> addedNode = longerList.head;
+//		LLNode<Integer> prevNode = longerList.head;
+//		LLNode<Integer> nextNode = longerList.head;
+//		for(int k=0;k<7;k++) {
+//			if(k==4) {prevNode = holder;}
+//			else if(k==5) {addedNode = holder;}
+//			else if(k==6) {nextNode = holder;}
+//			holder = holder.next;
+//		}
+//		assertEquals("Check addedNode.next is nextNode",(Integer)5, addedNode.next.data);
+//		assertEquals("Check addedNode.prev is prevNode",(Integer)4, addedNode.prev.data);
+//		assertEquals("Check nextNode.prev is addedNode",(Integer)182, nextNode.prev.data);
+//		assertEquals("Check prevNode.next is addedNode",(Integer)182, prevNode.next.data);
+//		
 	}
 	
 	/** Test setting an element in the list */
