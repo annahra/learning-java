@@ -146,6 +146,10 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
+		assertEquals("Check size of shortList",2,shortList.size());
+		assertEquals("Check size of emptyList",0,emptyList.size());
+		assertEquals("Check size of longerLIst", 10, longerList.size());
+		assertEquals("Check size of list1",3,list1.size());
 	}
 
 	
@@ -160,16 +164,30 @@ public class MyLinkedListTester {
         // TODO: implement this test
 		//check if adding null element
 		try {
-			shortList.add(null);
+			shortList.add(0,null);
 			fail("Did not catch null pointer");
 		}
 		catch (NullPointerException e){
 			
 		}
+		try {
+			shortList.add(-1,"This shouldn't work");
+			fail("Did not catch out of bounds");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			shortList.add(shortList.size,"This shouldn't work either");
+			fail("Did not catch out of bounds");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
 		//SPECIAL CASE: at to front of list
 		//add something to the front
-		//shortList.add(0,"Z");
-		//check that prev pointer of first node is null
+//		shortList.add(0,"Z");
+//		//check that prev pointer of first node is null
 //		assertEquals("Check firstNode.prev is null",null,shortList.head.prev);
 //		//check if head points to front node
 //		assertEquals("Check if head points to front node","Z",shortList.head.data);
@@ -177,22 +195,22 @@ public class MyLinkedListTester {
 //		assertEquals("Check index 0","Z",shortList.get(0));
 		
 		//GENERAL CASE: add to somewhere in between, add to index 5 of longerList
-		//longerList.add(5,182);
-//		LLNode<Integer> holder = longerList.head;
-//		LLNode<Integer> addedNode = longerList.head;
-//		LLNode<Integer> prevNode = longerList.head;
-//		LLNode<Integer> nextNode = longerList.head;
-//		for(int k=0;k<7;k++) {
-//			if(k==4) {prevNode = holder;}
-//			else if(k==5) {addedNode = holder;}
-//			else if(k==6) {nextNode = holder;}
-//			holder = holder.next;
-//		}
-//		assertEquals("Check addedNode.next is nextNode",(Integer)5, addedNode.next.data);
-//		assertEquals("Check addedNode.prev is prevNode",(Integer)4, addedNode.prev.data);
-//		assertEquals("Check nextNode.prev is addedNode",(Integer)182, nextNode.prev.data);
-//		assertEquals("Check prevNode.next is addedNode",(Integer)182, prevNode.next.data);
-//		
+		longerList.add(5,182);
+		LLNode<Integer> holder = longerList.head;
+		LLNode<Integer> addedNode = longerList.head;
+		LLNode<Integer> prevNode = longerList.head;
+		LLNode<Integer> nextNode = longerList.head;
+		for(int k=0;k<7;k++) {
+			if(k==4) {prevNode = holder;}
+			else if(k==5) {addedNode = holder;}
+			else if(k==6) {nextNode = holder;}
+			holder = holder.next;
+		}
+		assertEquals("Check addedNode.next is nextNode",(Integer)5, addedNode.next.data);
+		assertEquals("Check addedNode.prev is prevNode",(Integer)4, addedNode.prev.data);
+		assertEquals("Check nextNode.prev is addedNode",(Integer)182, nextNode.prev.data);
+		assertEquals("Check prevNode.next is addedNode",(Integer)182, prevNode.next.data);
+		
 	}
 	
 	/** Test setting an element in the list */

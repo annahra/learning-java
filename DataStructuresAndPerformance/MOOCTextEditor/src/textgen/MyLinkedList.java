@@ -52,16 +52,23 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		// TODO: Implement this method.
 		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
 							index+" is out of bounds");}
+		
+		return getNode(index).data;
+	}
+	
+	public LLNode<E> getNode(int index){
+		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
+				index+" is out of bounds");}
 		LLNode<E> holder = head;
-		for(int k=0;k<size+1;k++) {
+		for(int k=0;k<size;k++) {
 			if(k!=index) {
 				holder = holder.next;
 			}
 			else {break;}
 		}
-		return holder.data;
+		return holder;
 	}
-
+	
 	/**
 	 * Add an element to the list at the specified index
 	 * @param The index where the element should be added
@@ -70,8 +77,17 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public void add(int index, E element ) 
 	{
 		// TODO: Implement this method
+		if(element == null) {throw new NullPointerException("Cannot add null to List");}
+		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
+				index+" is out of bounds");}
+		
+		LLNode<E> newNode = new LLNode<E>(element);
+		LLNode<E> oldNode = getNode(index);
+		newNode.prev = oldNode.prev;
+		newNode.next = oldNode;
+		oldNode.prev.next = newNode;
+		oldNode.prev = newNode;
 	}
-
 
 	/** Return the size of the list */
 	public int size() 
@@ -121,6 +137,7 @@ class LLNode<E>
 		this.prev = null;
 		this.next = null;
 	}
+	
 	
 //	public String toString(String input) {
 //		if(input.equals("prev")) {
