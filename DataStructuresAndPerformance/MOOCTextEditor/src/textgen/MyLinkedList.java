@@ -78,18 +78,23 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		// TODO: Implement this method
 		if(element == null) {throw new NullPointerException("Cannot add null to List");}
-		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
+		if((index >= size && index !=0) || index<0) {throw new IndexOutOfBoundsException("Index "+
 				index+" is out of bounds");}
 		//evaluate for special case where inserting at beginning
-		if(index == 0) {
+		if(index == 0 && size !=0) {
 			LLNode<E> newNode = new LLNode<E>(element);
 			newNode.next = head;
 			head.prev = newNode;
 			head = newNode;
+			size+=1;
+		}
+		else if(index == 0 && size == 0) {
+			add(element);
 		}
 		//evaluate for special case where inserting at end
 		else if(index == size-1) {
 			add(element);
+			size+=1;
 		}
 		else {
 			LLNode<E> newNode = new LLNode<E>(element);
@@ -98,6 +103,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			newNode.next = oldNode;
 			oldNode.prev.next = newNode;
 			oldNode.prev = newNode;
+			size+=1;
 		}
 	}
 
@@ -117,7 +123,36 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E remove(int index) 
 	{
 		// TODO: Implement this method
-		return null;
+		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
+				index+" is out of bounds");}
+		LLNode<E> toBeDeleted = getNode(index);
+		if(index == 0 && size != 1) {
+			head = toBeDeleted.next;
+			toBeDeleted.next.prev = null;
+			toBeDeleted.next = null;
+			size = size - 1;
+		}
+		else if (index == 0 && size ==1) {
+			head = null;
+			tail = null;
+			size = size - 1;
+		}
+		else if(index == (size-1)) {
+			tail = toBeDeleted.prev;
+			toBeDeleted.prev.next = null;
+			toBeDeleted.prev = null;
+			size = size - 1;
+		}
+		else {
+			toBeDeleted.next.prev = toBeDeleted.prev;
+			toBeDeleted.prev.next = toBeDeleted.next;
+			toBeDeleted.next = null;
+			toBeDeleted.prev = null;
+			size = size - 1;
+		}
+		
+		
+		return toBeDeleted.data;
 	}
 
 	/**
@@ -130,7 +165,14 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E set(int index, E element) 
 	{
 		// TODO: Implement this method
-		return null;
+		if(element == null) {throw new NullPointerException("Cannot add null to List");}
+		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
+				index+" is out of bounds");}
+		LLNode<E> newEl = getNode(index);
+		E oldValue = newEl.data;
+		newEl.data = element;
+		
+		return oldValue;
 	}   
 }
 
@@ -151,17 +193,5 @@ class LLNode<E>
 	}
 	
 	
-//	public String toString(String input) {
-//		if(input.equals("prev")) {
-//			return prev.getClass().getName()+'@'+Integer.toHexString(hashCode());
-//		}
-//		else if (input.equals("next")) {
-//			return next.getClass().getName()+'@'+Integer.toHexString(hashCode());
-//		}
-//		else {
-//			return getClass().getName()+'@'+Integer.toHexString(hashCode());
-//		}
-//		
-//	}
 
 }

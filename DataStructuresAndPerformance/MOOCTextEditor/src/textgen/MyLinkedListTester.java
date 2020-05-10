@@ -109,12 +109,40 @@ public class MyLinkedListTester {
 	@Test
 	public void testRemove()
 	{
+		list1.add(182);
+		list1.add(420);
+		list1.add(828);
+		
 		int a = list1.remove(0);
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
-		assertEquals("Remove: check size is correct ", 2, list1.size());
+		assertEquals("Remove: check size is correct ", 5, list1.size());
 		
 		// TODO: Add more tests here
+		try {
+			int b = list1.remove(-1);
+			fail("Did not catch out of bounds index");
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			int b = list1.remove(list1.size);
+			fail("Did not catch out of bounds index");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		
+		int b = list1.remove(list1.size-1);
+		assertEquals("Remove: check b correct", 828, b);
+		assertEquals("Remove: check element size - 1 correct", (Integer)420, list1.get(list1.size-1));
+		assertEquals("Remove: Check size is correct", 4, list1.size());
+		
+		int c = list1.remove(1);
+		assertEquals("Remove: check c correct", 42, c);
+		assertEquals("Remove: check element 1 correct", (Integer)182, list1.get(1));
+		assertEquals("Remove: Check size is correct", 3, list1.size());
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -219,7 +247,30 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 	    // TODO: implement this test
-	    
+		try {
+			shortList.set(0,null);
+			fail("Did not catch null pointer");
+		}
+		catch (NullPointerException e){
+			
+		}
+		try {
+			shortList.set(-1,"This shouldn't work");
+			fail("Did not catch out of bounds");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			shortList.set(shortList.size,"This shouldn't work either");
+			fail("Did not catch out of bounds");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		shortList.set(0, "New");
+		assertEquals("Check new value", "New", shortList.get(0));
+	    assertEquals("Check size didnt change",2,shortList.size);
 	}
 	
 	
