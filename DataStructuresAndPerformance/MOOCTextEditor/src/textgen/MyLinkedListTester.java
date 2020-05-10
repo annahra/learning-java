@@ -186,13 +186,14 @@ public class MyLinkedListTester {
 		}
 		//SPECIAL CASE: at to front of list
 		//add something to the front
-//		shortList.add(0,"Z");
-//		//check that prev pointer of first node is null
-//		assertEquals("Check firstNode.prev is null",null,shortList.head.prev);
-//		//check if head points to front node
-//		assertEquals("Check if head points to front node","Z",shortList.head.data);
-//		//check if index 0 gives that node
-//		assertEquals("Check index 0","Z",shortList.get(0));
+		shortList.add(0,"Z");
+		
+		//check that prev pointer of first node is null
+		assertEquals("Check firstNode.prev is null",null,shortList.head.prev);
+		//check if head points to front node
+		assertEquals("Check if head points to front node","Z",shortList.head.data);
+		//check if index 0 gives that node
+		assertEquals("Check index 0","Z",shortList.get(0));
 		
 		//GENERAL CASE: add to somewhere in between, add to index 5 of longerList
 		longerList.add(5,182);

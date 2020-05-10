@@ -80,13 +80,25 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		if(element == null) {throw new NullPointerException("Cannot add null to List");}
 		if(index >= size || index<0) {throw new IndexOutOfBoundsException("Index "+
 				index+" is out of bounds");}
-		
-		LLNode<E> newNode = new LLNode<E>(element);
-		LLNode<E> oldNode = getNode(index);
-		newNode.prev = oldNode.prev;
-		newNode.next = oldNode;
-		oldNode.prev.next = newNode;
-		oldNode.prev = newNode;
+		//evaluate for special case where inserting at beginning
+		if(index == 0) {
+			LLNode<E> newNode = new LLNode<E>(element);
+			newNode.next = head;
+			head.prev = newNode;
+			head = newNode;
+		}
+		//evaluate for special case where inserting at end
+		else if(index == size-1) {
+			add(element);
+		}
+		else {
+			LLNode<E> newNode = new LLNode<E>(element);
+			LLNode<E> oldNode = getNode(index);
+			newNode.prev = oldNode.prev;
+			newNode.next = oldNode;
+			oldNode.prev.next = newNode;
+			oldNode.prev = newNode;
+		}
 	}
 
 	/** Return the size of the list */
