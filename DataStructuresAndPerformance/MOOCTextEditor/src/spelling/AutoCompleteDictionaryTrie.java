@@ -20,6 +20,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     public AutoCompleteDictionaryTrie()
 	{
 		root = new TrieNode();
+		size = 0;
 	}
 	
 	
@@ -40,6 +41,29 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean addWord(String word)
 	{
 	    //TODO: Implement this method.
+		word = word.toLowerCase();
+		StringBuilder s = new StringBuilder(word);
+		TrieNode currNode = root;
+		for(int k=0; k<word.length();k++) {
+			TrieNode newNode = currNode.insert(s.charAt(k));
+			if(newNode == null) {
+				currNode = currNode.getChild(s.charAt(k));
+			}
+			else {
+				currNode = newNode;
+			}
+			if(k==(word.length()-1)) {
+				if(currNode.endsWord()) {
+					return false;
+				}
+				else {
+					size+=1;
+					currNode.setEndsWord(true);
+					return currNode.setText(word);
+				}
+			}
+		}
+		
 	    return false;
 	}
 	
@@ -50,7 +74,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public int size()
 	{
 	    //TODO: Implement this method
-	    return 0;
+	    return size;
 	}
 	
 	
@@ -60,6 +84,17 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean isWord(String s) 
 	{
 	    // TODO: Implement this method
+		String word = s.toLowerCase();
+		StringBuilder sb = new StringBuilder(word);
+		TrieNode currNode = root;
+		for(int k=0;k<word.length();k++) {
+			currNode = currNode.getChild(sb.charAt(k));
+			if(currNode==null) {return false;}
+			if(k==(word.length()-1)) {
+				return currNode.endsWord();
+			}
+		}
+		
 		return false;
 	}
 

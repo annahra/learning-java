@@ -58,6 +58,12 @@ class TrieNode {
 		return next;
 	}
 	
+	public boolean setText(String s) {
+		text = s;
+		if(text.equals(s)) {return true;}
+		return false;
+	}
+	
 	/** Return the text string at this node */
     public String getText()
 	{
